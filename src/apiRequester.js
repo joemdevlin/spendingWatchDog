@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const baseURL = 'https://api.usaspending.gov';
 const agenciesURL = baseURL + '/api/v2/references/toptier_agencies';
 
+// Holds Top Levle Agency info
 class Agency {
     constructor(name, id, tierCode) {
       this.name = name;
@@ -10,6 +11,8 @@ class Agency {
     }
 }
 
+// Holds funding breakdown for a specific Agency
+// Note: subfinding is a list of Funding.
 class Funding {
     constructor(name, amount, subFunding) {
       this.name = name;
@@ -18,6 +21,8 @@ class Funding {
     }
 }
 
+// Helper function to run a get http request with
+// no explicit parameters.
 async function getPage(url){
     if(url  === null){
         return null;
@@ -28,6 +33,8 @@ async function getPage(url){
     return data;
 }
 
+// Returns a list of Agency.  Preforms API request
+// to get a list of all possible agencies to pick from.
 async function getAgencyNames(){
     const response = await getPage(agenciesURL);
     const result = response.results.map(ele => {
@@ -36,6 +43,7 @@ async function getAgencyNames(){
     return result;
 }
 
+// Returns a list of Funding.  Used to encapsualte each agencies spending breakdown.
 async function getAgencyBudgets(toptierCode){
     const response = await getPage(`${baseURL}/api/v2/agency/${toptierCode}/budget_function`);
     const result = response.results.map(ele => {
