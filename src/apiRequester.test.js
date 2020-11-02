@@ -14,3 +14,11 @@ test('Get Agency Names', () => {
         expect(d[0].name).toEqual("Access Board");
     });
 });
+
+test('Get Agency Funding Single', () => {
+    return apiRequestor.getAgencyBudgets("036").then(d => {
+        expect(d).toHaveLength(1);
+        expect(d[0].name).toEqual("Veterans Benefits and Services");
+        expect(d[0].subFunding[0].name).toEqual("Income security for veterans");
+    });
+});
