@@ -28,9 +28,18 @@ test('Get Agency Funding Single', () => {
     });
 });
 
+// List of years funded
 test('Get Agency funding over time', () => {
     return apiRequestor.getAgencyHistorical("Department of the Treasury").then(d => {
         expect(d).toHaveLength(14);
         expect(d[3].year).toEqual(2011);
+    });
+});
+
+// List of state/funding pairing
+test('Get State funding', () => {
+    return apiRequestor.getStateFunding("Department of the Treasury").then(d => {
+        expect(d).toHaveLength(50);
+        expect(d[3].name).toEqual("New York");
     });
 });

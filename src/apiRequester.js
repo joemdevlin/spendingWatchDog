@@ -2,6 +2,8 @@ const fetch = require('node-fetch');
 const baseURL = 'https://api.usaspending.gov';
 const agenciesURL = baseURL + '/api/v2/references/toptier_agencies';
 const historicalFunding = baseURL + '/api/v2/search/spending_over_time';
+const stateFunding = baseURL + '/api/v2/search/spending_by_category';
+
 
 // Holds Top Levle Agency info
 class Agency {
@@ -86,4 +88,28 @@ async function getAgencyHistorical(name){
     return result;
 }
 
-module.exports = {getAgencyNames, getPage: fetchPage, Agency, Funding, getAgencyBudgets, getAgencyHistorical};
+// Returns a list of states and funding pairs
+async function getStateFunding(){
+    const apiOptions = {
+        category : "state_territory",
+        limit: "50"
+    };
+    const httpOptions = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(apiOptions)
+    };
+
+    const response = await fetchPage(stateFunding, httpOptions);
+    console.log(response.results);
+    const result = response.results.map(state =>
+        ({name : state.name, amount : Number(state.amount)})
+    );
+
+    return result;
+}
+
+module.exports = {getAgencyNames, getPage: fetchPage, Agency, Funding, getAgencyBudgets, getAgencyHistorical, getStateFunding};
