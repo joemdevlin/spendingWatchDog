@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const baseURL = 'https://api.usaspending.gov';
 const agenciesURL = baseURL + '/api/v2/references/toptier_agencies';
+const historicalFunding = baseURL + '/api/v2/search/spending_over_time';
 
 // Holds Top Levle Agency info
 class Agency {
@@ -23,12 +24,12 @@ class Funding {
 
 // Helper function to run a get http request with
 // no explicit parameters.
-async function getPage(url){
+async function fetchPage(url, options={}){
     if(url  === null){
         return null;
     }
 
-    const response = await fetch(url);
+    const response = await fetch(url, options);
     const data = await response.json();
     return data;
 }
@@ -36,7 +37,7 @@ async function getPage(url){
 // Returns a list of Agency.  Preforms API request
 // to get a list of all possible agencies to pick from.
 async function getAgencyNames(){
-    const response = await getPage(agenciesURL);
+    const response = await fetchPage(agenciesURL);
     const result = response.results.map(ele => {
         return new Agency(ele["agency_name"], ele["agency_id"], ele["toptier_code"])
     });
@@ -45,13 +46,44 @@ async function getAgencyNames(){
 
 // Returns a list of Funding.  Used to encapsualte each agencies spending breakdown.
 async function getAgencyBudgets(toptierCode){
-    const response = await getPage(`${baseURL}/api/v2/agency/${toptierCode}/budget_function`);
+    const response = await fetchPage(`${baseURL}/api/v2/agency/${toptierCode}/budget_function`);
     const result = response.results.map(ele => {
         return new Funding(ele["name"], ele["obligated_amount"], ele.children.map(child =>{
-            return new Funding(child["name"], child["obligated_amount"], [])
-        }))
+            return new Funding(child["name"], child["obligated_amount"], []);
+        }));
     });
     return result;
 }
 
-module.exports = {getAgencyNames, getPage, Agency, Funding, getAgencyBudgets};
+// Returns a list of amount and year pairs
+async function getAgencyHistorical(name){
+    const apiOptions = {
+  	    group : "fiscal_year",
+  	     filters : {
+  	  	    agencies : [
+                {
+                    type: "awarding",
+                    tier: "toptier",
+                    name: name
+                }
+  	  	    ]
+        }
+    };
+    const httpOptions = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(apiOptions)
+    };
+
+    const response = await fetchPage(historicalFunding, httpOptions);
+    const result = response.results.map(year =>
+        ({amount : Number(year.aggregated_amount), year : Number(year.time_period.fiscal_year)})
+    );
+
+    return result;
+}
+
+module.exports = {getAgencyNames, getPage: fetchPage, Agency, Funding, getAgencyBudgets, getAgencyHistorical};

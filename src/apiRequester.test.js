@@ -27,3 +27,10 @@ test('Get Agency Funding Single', () => {
         expect(d[0].subFunding[0].name).toEqual("Income security for veterans");
     });
 });
+
+test('Get Agency funding over time', () => {
+    return apiRequestor.getAgencyHistorical("Department of the Treasury").then(d => {
+        expect(d).toHaveLength(14);
+        expect(d[3].year).toEqual(2011);
+    });
+});
