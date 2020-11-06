@@ -10,20 +10,20 @@ import Breakdown from "./components/AgencyBreakdownView";
 import History from "./components/HistoricalFundingView";
 import State from "./components/StatesView";
 
-import {Nav} from "react-bootstrap";
+import {Nav, Jumbotron} from "react-bootstrap";
 
 function App() {
   return (
     <div className="App">
-      <header>
-        <h1>Spending Watch Dog</h1>
-      </header>
+      <Jumbotron>
+          <h1>Spending Watch Dog</h1>
+      </Jumbotron>
       <HashRouter>
-        <Nav expand="lg" className="justify-content-center" activeKey="/home" variant="tabs">
-              <Nav.Item><NavLink to="/">Home</NavLink></Nav.Item>
-              <Nav.Item><NavLink to="/states">State Funding</NavLink></Nav.Item>
-              <Nav.Item><NavLink to="/historical">Historical Funding</NavLink></Nav.Item>
-              <Nav.Item><NavLink to="/breakdown">Agency Breakdwon</NavLink></Nav.Item>
+        <Nav class="navbar navbar-expand-lg navbar-light bg-light" activeKey="/home" variant="tabs">
+              <Nav.Item><NavLink class="nav-link" to="/">Home</NavLink></Nav.Item>
+              <Nav.Item><NavLink class="nav-link" to="/states">State Funding</NavLink></Nav.Item>
+              <Nav.Item><NavLink class="nav-link" to="/historical">Historical Funding</NavLink></Nav.Item>
+              <Nav.Item><NavLink class="nav-link" to="/breakdown">Agency Breakdwon</NavLink></Nav.Item>
         </Nav>
         <main>
           <div id="content" >
