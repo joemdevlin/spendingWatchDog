@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Route,
-  NavLink,
+  Link,
   HashRouter
 } from "react-router-dom";
 import Home from "./components/HomeView";
@@ -10,7 +10,7 @@ import Breakdown from "./components/AgencyBreakdownView";
 import History from "./components/HistoricalFundingView";
 import State from "./components/StatesView";
 
-import {Nav, Jumbotron} from "react-bootstrap";
+import {Jumbotron} from "react-bootstrap";
 
 function App() {
   return (
@@ -19,12 +19,15 @@ function App() {
           <h1>Spending Watch Dog</h1>
       </Jumbotron>
       <HashRouter>
-        <Nav class="navbar navbar-expand-lg navbar-light bg-light" activeKey="/home" variant="tabs">
-              <Nav.Item><NavLink class="nav-link" to="/">Home</NavLink></Nav.Item>
-              <Nav.Item><NavLink class="nav-link" to="/states">State Funding</NavLink></Nav.Item>
-              <Nav.Item><NavLink class="nav-link" to="/historical">Historical Funding</NavLink></Nav.Item>
-              <Nav.Item><NavLink class="nav-link" to="/breakdown">Agency Breakdwon</NavLink></Nav.Item>
-        </Nav>
+        <div class="navbar navbar-expand-md navbar-dark bg-dark">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><Link class="nav-link" to="/">Home</Link></li>
+            <li class="nav-item"><Link class="nav-link" to="/states">State Funding</Link></li>
+            <li class="nav-item"><Link class="nav-link" to="/historical">Historical Funding</Link></li>
+            <li class="nav-item"><Link class="nav-link" to="/breakdown">Agency Breakdwon</Link></li>
+          </ul>
+
+        </div>
         <main>
           <div id="content" >
             <Route exact path="/" component={Home}/>
