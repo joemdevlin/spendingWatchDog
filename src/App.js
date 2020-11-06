@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Route,
   NavLink,
@@ -9,6 +10,8 @@ import Breakdown from "./components/AgencyBreakdownView";
 import History from "./components/HistoricalFundingView";
 import State from "./components/StatesView";
 
+import {Nav} from "react-bootstrap";
+
 function App() {
   return (
     <div className="App">
@@ -16,14 +19,12 @@ function App() {
         <h1>Spending Watch Dog</h1>
       </header>
       <HashRouter>
-        <nav>
-          <ul className="header">
-              <li><NavLink to="/">Home</NavLink></li>
-              <li><NavLink to="/states">State Funding</NavLink></li>
-              <li><NavLink to="/historical">Historical Funding</NavLink></li>
-              <li><NavLink to="/breakdown">Agency Breakdwon</NavLink></li>
-            </ul>
-        </nav>
+        <Nav expand="lg" className="justify-content-center" activeKey="/home" variant="tabs">
+              <Nav.Item><NavLink to="/">Home</NavLink></Nav.Item>
+              <Nav.Item><NavLink to="/states">State Funding</NavLink></Nav.Item>
+              <Nav.Item><NavLink to="/historical">Historical Funding</NavLink></Nav.Item>
+              <Nav.Item><NavLink to="/breakdown">Agency Breakdwon</NavLink></Nav.Item>
+        </Nav>
         <main>
           <div id="content" >
             <Route exact path="/" component={Home}/>
