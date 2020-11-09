@@ -46,6 +46,14 @@ async function getAgencyNames(){
     return result;
 }
 
+async function getAgencyNamesList(){
+    const response = await getAgencyNames();
+    const result = response.map((agency, index) => {
+        return {id: index, name: agency.name}
+    });
+    return result;
+}
+
 // Returns a list of Funding.  Used to encapsualte each agencies spending breakdown.
 async function getAgencyBudgets(toptierCode){
     const response = await fetchPage(`${baseURL}/api/v2/agency/${toptierCode}/budget_function`);
@@ -104,7 +112,6 @@ async function getStateFunding(){
     };
 
     const response = await fetchPage(stateFunding, httpOptions);
-    console.log(response.results);
     const result = response.results.map(state =>
         ({name : state.name, amount : Number(state.amount)})
     );
@@ -112,4 +119,4 @@ async function getStateFunding(){
     return result;
 }
 
-module.exports = {getAgencyNames, getPage: fetchPage, Agency, Funding, getAgencyBudgets, getAgencyHistorical, getStateFunding};
+module.exports = {getAgencyNames, getPage: fetchPage, Agency, Funding, getAgencyBudgets, getAgencyHistorical, getStateFunding, getAgencyNamesList};

@@ -17,6 +17,15 @@ test('Get Agency Names', () => {
     });
 });
 
+// Grabs all of the Agencies.  Returns a list of Agency Objects.
+test('Get Agency Names in search format', () => {
+    return apiRequestor.getAgencyNamesList().then(d => {
+        expect(d).toHaveLength(106);
+        expect(d[0].name).toEqual("Access Board");
+        expect(d[0].id).toEqual(0);
+    });
+});
+
 // Full agency funding break down.  Returns a list of Funding: top level
 // agencies and their sub divisions.  This example has only one top level
 // agency name.
@@ -38,7 +47,7 @@ test('Get Agency funding over time', () => {
 
 // List of state/funding pairing
 test('Get State funding', () => {
-    return apiRequestor.getStateFunding("Department of the Treasury").then(d => {
+    return apiRequestor.getStateFunding().then(d => {
         expect(d).toHaveLength(50);
         expect(d[3].name).toEqual("New York");
     });

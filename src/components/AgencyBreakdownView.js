@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import {Form, Row, Col} from "react-bootstrap";
+import APIRequester from '../apiRequester';
+
+// https://stackoverflow.com/questions/3895478/does-javascript-have-a-method-like-range-to-generate-a-range-within-the-supp
+const startYears = [...Array(13).keys()].map((i) => {return {id: i, name: (i + 2008).toString()}});
 
 class AgencyBreakdownView extends Component {
   constructor(props){
@@ -16,17 +20,6 @@ class AgencyBreakdownView extends Component {
       }
     ];
 
-    const startYears = [
-      {
-        id: 0,
-        name: "2001",
-      },
-      {
-        id: 1,
-        name: "2011"
-      },
-    ];
-
     this.state = {
       agencyName: '', 
       year: '', 
@@ -36,6 +29,8 @@ class AgencyBreakdownView extends Component {
 
     this.onAgencySearch = this.onAgencySearch.bind(this);
     this.onYearSearch = this.onYearSearch.bind(this);
+
+
   }
 
   onAgencySearch(string, cached){
@@ -46,6 +41,21 @@ class AgencyBreakdownView extends Component {
   onYearSearch(string, cached){
     this.setState({agencyName: string});
     console.log(string, cached);
+  }
+
+  componentDidMount () {
+    this.mounted = true;
+    var _this = this;
+    this.serverRequest  = APIRequester.getAgencyNamesList()
+      .then(function(result) {    
+        _this.setState({
+            agencyNames: result
+        });
+      })
+    ;
+  }
+
+  componentWillUnmount () {
   }
 
   handleOnSelect(item){
