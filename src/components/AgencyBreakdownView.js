@@ -14,12 +14,17 @@ class AgencyBreakdownView extends Component {
       agencyNames : [],
       dataToGraph: null
     };
+
+    // Have to register these functions for callbacks
     this.onAgencySearch = this.onAgencySearch.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
     this.graph = this.graph.bind(this);
+
+    // Updates the text for H2 tag
     this.name = "Agency Budgets"
   }
 
+  // Graphs the data the user searched for
   graph(){
     return  <PieChart width={730} height={300}>
               <Pie data={this.state.dataToGraph} dataKey="amount" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" >
@@ -33,6 +38,7 @@ class AgencyBreakdownView extends Component {
     console.log(string, cached);
   }
 
+  // When page loads, get the possible agencies
   componentDidMount () {
     this.mounted = true;
     var _this = this;
@@ -45,9 +51,15 @@ class AgencyBreakdownView extends Component {
     ;
   }
 
+  // This function is called if the did mount call back
+  // does not have a chance to finish.  For now, there
+  // is nothing to clean up
   componentWillUnmount () {
   }
 
+  // When the user picks an agency from the list, a
+  // query needs to be ran to get the specific agencies
+  // funding break down.
   handleOnSelect(item){
     var _this = this;
     this.setState({agencyName: item.name});
