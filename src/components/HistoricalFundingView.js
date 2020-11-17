@@ -1,31 +1,23 @@
-import React, { Component } from 'react';
 import AgencyBreakdownView from './AgencyBreakdownView';
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import {Form, Row, Col} from "react-bootstrap";
+import APIRequester from '../apiRequester';
 
 class HistoricalFundingView extends AgencyBreakdownView {
-  render() {
-    return (
-      <div>
-        <h2>Historical?</h2>
-        <Form>
-          <Form.Group as={Row}>
-            <Form.Label column sm="4">
-              Agency Name
-            </Form.Label>
-            <Col sm="8">
-              <ReactSearchAutocomplete
-                items={this.state.agencyNames}
-                onSearch={this.onAgencySearch}
-                onSelect={this.handleOnSelect}
-                onFocus={this.handleOnFocus}
-                autoFocus 
-              />
-            </Col>
-          </Form.Group>
-        </Form>
-      </div>
-    )
+  constructor(props){
+    super(props);
+    this.name = "Historical Agency Funding"
+  }
+  handleOnSelect(item){
+    var _this = this;
+    this.setState({agencyName: item.name});
+    console.log("Searching for data on " + item.name);
+    this.serverRequest  = APIRequester.getAgencyHistorical(item.name)
+      .then(function(result) { 
+        console.log(result);
+        _this.setState({
+          dataToGraph: result
+        });
+      })
+    ;
   }
 }
 

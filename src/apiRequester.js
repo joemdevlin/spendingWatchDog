@@ -49,7 +49,7 @@ async function getAgencyNames(){
 async function getAgencyNamesList(){
     const response = await getAgencyNames();
     const result = response.map((agency, index) => {
-        return {id: index, name: agency.name}
+        return {id: index, name: agency.name, tierCode : agency.tierCode}
     });
     return result;
 }

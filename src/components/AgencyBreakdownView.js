@@ -1,45 +1,34 @@
 import React, { Component } from 'react';
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import {Form, Row, Col} from "react-bootstrap";
+import {LineChart, XAxis, YAxis, CartesianGrid, Line} from "recharts";
 import APIRequester from '../apiRequester';
-
-// https://stackoverflow.com/questions/3895478/does-javascript-have-a-method-like-range-to-generate-a-range-within-the-supp
-const startYears = [...Array(13).keys()].map((i) => {return {id: i, name: (i + 2008).toString()}});
 
 class AgencyBreakdownView extends Component {
   constructor(props){
     super(props);
-    const startNames = [
-      {
-        id: 0,
-        name: "VA",
-      },
-      {
-        id: 1,
-        name: "Army"
-      }
-    ];
 
     this.state = {
       agencyName: '', 
       year: '', 
-      agencyNames : startNames,
-      years: startYears
+      agencyNames : [],
+      dataToGraph: null
     };
-
     this.onAgencySearch = this.onAgencySearch.bind(this);
-    this.onYearSearch = this.onYearSearch.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
+    this.graph = this.graph.bind(this);
+    this.name = "Agency Budgets"
+  }
 
-
+  graph(){
+    return  <LineChart width={500} height={300} data={this.state.dataToGraph}>
+              <XAxis dataKey="year"/>
+              <YAxis/>
+              <Line dataKey= "amount"/>
+            </LineChart>
   }
 
   onAgencySearch(string, cached){
-    this.setState({agencyName: string});
-    console.log(string, cached);
-  }
-
-  onYearSearch(string, cached){
-    this.setState({agencyName: string});
     console.log(string, cached);
   }
 
@@ -59,8 +48,19 @@ class AgencyBreakdownView extends Component {
   }
 
   handleOnSelect(item){
-    // the item selected
-    console.log(item);
+    var _this = this;
+    this.setState({agencyName: item.name});
+    console.log("Searching for data on " + item.name);
+    this.serverRequest  = APIRequester.getAgencyBudgets(item.name)
+      .then(function(result) { 
+        console.log(result);
+        const formatted = result.map(ele => {return {name : ele.year, agency : ele.amount}});
+        console.log(formatted);
+        _this.setState({
+          dataToGraph: formatted
+        });
+      })
+    ;
   }
  
   handleOnFocus(){
@@ -70,28 +70,16 @@ class AgencyBreakdownView extends Component {
   render() {
     return (
       <div>
-        <h2>Agency Breakdown?</h2>
+        <h2>{this.name}</h2>
         <Form>
           <Form.Group as={Row}>
-            <Form.Label column sm="2">
+            <Form.Label column sm="4">
               Agency Name
             </Form.Label>
-            <Col sm="4">
+            <Col sm="8">
               <ReactSearchAutocomplete
-                 items={this.state.agencyNames}
+                items={this.state.agencyNames}
                 onSearch={this.onAgencySearch}
-                onSelect={this.handleOnSelect}
-                onFocus={this.handleOnFocus}
-                autoFocus 
-              />
-            </Col>
-            <Form.Label column sm="2">
-              Year
-            </Form.Label>
-            <Col sm="4">
-              <ReactSearchAutocomplete
-                items={this.state.years}
-                onSearch={this.onYearSearch}
                 onSelect={this.handleOnSelect}
                 onFocus={this.handleOnFocus}
                 autoFocus 
@@ -99,8 +87,8 @@ class AgencyBreakdownView extends Component {
             </Col>
           </Form.Group>
         </Form>
+        {this.graph()}
       </div>
-
     )
   }
 }
