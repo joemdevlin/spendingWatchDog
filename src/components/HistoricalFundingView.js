@@ -1,10 +1,19 @@
 import AgencyBreakdownView from './AgencyBreakdownView';
+import {LineChart, XAxis, YAxis, Line} from "recharts";
 import APIRequester from '../apiRequester';
 
 class HistoricalFundingView extends AgencyBreakdownView {
   constructor(props){
     super(props);
     this.name = "Historical Agency Funding"
+  }
+
+  graph(){
+    return  <LineChart width={500} height={300} data={this.state.dataToGraph}>
+              <XAxis dataKey="year"/>
+              <YAxis/>
+              <Line dataKey= "amount"/>
+            </LineChart>
   }
   handleOnSelect(item){
     var _this = this;

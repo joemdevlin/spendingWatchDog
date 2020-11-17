@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import {Form, Row, Col} from "react-bootstrap";
-import {LineChart, XAxis, YAxis, CartesianGrid, Line} from "recharts";
+import { PieChart, Pie, Legend, Tooltip } from 'recharts';
 import APIRequester from '../apiRequester';
 
 class AgencyBreakdownView extends Component {
@@ -21,11 +21,12 @@ class AgencyBreakdownView extends Component {
   }
 
   graph(){
-    return  <LineChart width={500} height={300} data={this.state.dataToGraph}>
-              <XAxis dataKey="year"/>
-              <YAxis/>
-              <Line dataKey= "amount"/>
-            </LineChart>
+    return  <PieChart width={730} height={300}>
+              <Pie data={this.state.dataToGraph} dataKey="amount" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" >
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
   }
 
   onAgencySearch(string, cached){
@@ -51,16 +52,20 @@ class AgencyBreakdownView extends Component {
     var _this = this;
     this.setState({agencyName: item.name});
     console.log("Searching for data on " + item.name);
-    this.serverRequest  = APIRequester.getAgencyBudgets(item.name)
-      .then(function(result) { 
-        console.log(result);
-        const formatted = result.map(ele => {return {name : ele.year, agency : ele.amount}});
-        console.log(formatted);
-        _this.setState({
-          dataToGraph: formatted
-        });
-      })
-    ;
+    this.state.agencyNames.forEach(ele =>{
+      if(ele.name === item.name){
+        this.serverRequest  = APIRequester.getAgencyBudgets(ele.tierCode)
+        .then(function(result) { 
+          console.log(result);
+          const formatted = result[0].subFunding.map(ele => {return {name : ele.year, amount : ele.amount}});
+          console.log(formatted);
+          _this.setState({
+            dataToGraph: formatted
+          });
+        })
+      ;
+      }
+    })
   }
  
   handleOnFocus(){
