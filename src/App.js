@@ -9,6 +9,7 @@ import Home from "./components/HomeView";
 import Breakdown from "./components/AgencyBreakdownView";
 import History from "./components/HistoricalFundingView";
 import State from "./components/StatesView";
+import Debt from "./components/DebtView";
 
 import {Jumbotron} from "react-bootstrap";
 
@@ -25,6 +26,7 @@ function App() {
             <li class="nav-item"><Link class="nav-link" to="/states">State Funding</Link></li>
             <li class="nav-item"><Link class="nav-link" to="/historical">Historical Funding</Link></li>
             <li class="nav-item"><Link class="nav-link" to="/breakdown">Agency Breakdwon</Link></li>
+            <li class="nav-item"><Link class="nav-link" to="/debt">Debt</Link></li>
           </ul>
 
         </div>
@@ -34,6 +36,7 @@ function App() {
             <Route path="/states" component={State}/>
             <Route path="/historical" component={History}/>
             <Route path="/breakdown" component={Breakdown}/>
+            <Route path="/debt" component={Debt}/>
           </div>
         </main>
       </HashRouter>
