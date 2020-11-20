@@ -24,7 +24,7 @@ class Debt {
 }
 
 async function getDebt(){
-    const response = await fetchPage(agenciesURL);
+    const response = await fetchPage(debtToPenny);
     const result = response.results.map(ele => {
         return new Debt(ele["reporting_calendar_month"], ele["reporting_calendar_year"])
     });
