@@ -23,11 +23,33 @@ class AgencyBreakdownView extends Component {
     this.onAgencySearch = this.onAgencySearch.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
     this.graph = this.graph.bind(this);
+    this.getForm = this.getForm.bind(this);
     this.moneyFormatter = this.moneyFormatter.bind(this);
 
     // Updates the text for H2 tag
     this.name = "Agency Budgets"
+    this.height = 500;
+    this.width = '100%';
   
+  }
+
+  getForm(){
+    return  <Form>
+              <Form.Group as={Row}>
+                <Form.Label column sm="4">
+                  Agency Name
+                </Form.Label>
+                <Col sm="8">
+                  <ReactSearchAutocomplete
+                    items={this.state.agencyNames}
+                    onSearch={this.onAgencySearch}
+                    onSelect={this.handleOnSelect}
+                    onFocus={this.handleOnFocus}
+                    autoFocus 
+                  />
+                </Col>
+              </Form.Group>
+            </Form>
   }
 
   moneyFormatter(num){
@@ -53,7 +75,6 @@ class AgencyBreakdownView extends Component {
 
   // When page loads, get the possible agencies
   componentDidMount () {
-    this.mounted = true;
     var _this = this;
     this.serverRequest  = APIRequester.getAgencyNamesList()
       .then(function(result) {    
@@ -82,7 +103,24 @@ class AgencyBreakdownView extends Component {
         this.serverRequest  = APIRequester.getAgencyBudgets(ele.tierCode)
         .then(function(result) { 
           console.log(result);
-          const formatted = result[0].subFunding.map(ele => {return {name : ele.name, amount : ele.amount}});
+          const agency = result.filter(a => a.name === item.name);
+
+          // No data forund for this agency.  Consider an error alert
+          // in the future
+          if(result.length != 1){
+            _this.setState({
+              dataToGraph: []
+            });
+            console.log(`Found this many entries: {result.length}, but expected 1`);
+            console.log(agency);
+            return
+          }
+
+          // Data is returned at a top agency level, so for now just show the user
+          // the agency they requested.
+          const formatted = result[0].subFunding.map(ele => {
+            return {name : ele.name, amount : ele.amount}
+          });
           console.log(formatted);
           _this.setState({
             dataToGraph: formatted
@@ -103,30 +141,15 @@ class AgencyBreakdownView extends Component {
         <Row className="justify-content-md-center">
           <h2>{this.name}</h2>
         </Row>
-        <Form>
-          <Form.Group as={Row}>
-            <Form.Label column sm="4">
-              Agency Name
-            </Form.Label>
-            <Col sm="8">
-              <ReactSearchAutocomplete
-                items={this.state.agencyNames}
-                onSearch={this.onAgencySearch}
-                onSelect={this.handleOnSelect}
-                onFocus={this.handleOnFocus}
-                autoFocus 
-              />
-            </Col>
-          </Form.Group>
-        </Form>
+        {this.getForm()}
         {this.state.dataToGraph &&
           <div>
             <Row className="justify-content-md-center">
               <h3>{this.state.agencyName} Funding in Million(s)</h3>
             </Row>
             <Row className="justify-content-md-center">
-              <Col sm="8">
-              <ResponsiveContainer width = '95%' height = {500} >
+              <Col sm="10">
+              <ResponsiveContainer width = {this.width} height = {this.height} >
                 {this.graph()}
               </ResponsiveContainer>
               </Col>

@@ -9,7 +9,7 @@ class HistoricalFundingView extends AgencyBreakdownView {
   }
 
   graph(){
-    return <LineChart width={800} height={700} data={this.state.dataToGraph} label="Funding in $100 Millions">
+    return <LineChart data={this.state.dataToGraph} label="Funding in $100 Millions">
               <XAxis dataKey="year"/>
               <YAxis></YAxis>
               <Line dataKey= "amount"/>
