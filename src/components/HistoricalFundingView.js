@@ -1,11 +1,19 @@
-import AgencyBreakdownView from './AgencyBreakdownView';
+import SearchGraphView from './SearchGraphView';
 import {LineChart, XAxis, YAxis, Line, Tooltip, Legend, CartesianGrid} from "recharts";
 import APIRequester from '../apiRequester';
+import {moneyFormatter} from '../utils';
 
-class HistoricalFundingView extends AgencyBreakdownView {
+class HistoricalFundingView extends SearchGraphView {
   constructor(props){
     super(props);
-    this.name = "Historical Agency Funding"
+    this.header = "Historical Agency Funding"
+    this.graphTitle = "Funding in Millions of dollars"
+  }
+
+  componentDidMount(){
+    APIRequester.getAgencyNamesList().then(newData =>{
+      this.updateSearchOptions(newData);
+    });
   }
 
   graph(){
@@ -13,21 +21,19 @@ class HistoricalFundingView extends AgencyBreakdownView {
               <XAxis dataKey="year"/>
               <YAxis></YAxis>
               <Line dataKey= "amount"/>
-              <Tooltip formatter={this.moneyFormatter}/>
+              <Tooltip formatter={moneyFormatter}/>
               <Legend />
               <CartesianGrid strokeDasharray="3 3" />
             </LineChart>
   }
-  handleOnSelect(item){
+
+  onSelect(item){
     var _this = this;
-    this.setState({agencyName: item.name});
-    console.log("Searching for data on " + item.name);
-    this.serverRequest  = APIRequester.getAgencyHistorical(item.name)
+    this.updateSearchChoice(item.name)
+
+    APIRequester.getAgencyHistorical(item.name)
       .then(function(result) { 
-        console.log(result);
-        _this.setState({
-          dataToGraph: result
-        });
+        _this.updateData(result)
       })
     ;
   }

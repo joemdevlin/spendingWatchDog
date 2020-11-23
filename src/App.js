@@ -15,7 +15,7 @@ import {Jumbotron} from "react-bootstrap";
 function App() {
   return (
     <div className="App">
-      <Jumbotron>
+      <Jumbotron className="mb-0">
           <h1>Spending Watch Dog</h1>
       </Jumbotron>
       <HashRouter>
