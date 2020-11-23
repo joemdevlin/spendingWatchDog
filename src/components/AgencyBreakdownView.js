@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import {Form, Row, Col} from "react-bootstrap";
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import APIRequester from '../apiRequester';
+
+let randomColor =  function(){
+  return '#' + Math.floor(Math.random()*16777215).toString(16)
+};
 
 class AgencyBreakdownView extends Component {
   constructor(props){
@@ -34,6 +38,9 @@ class AgencyBreakdownView extends Component {
   graph(){
     return  <PieChart>
                 <Pie data={this.state.dataToGraph} dataKey="amount" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" >
+                {
+                  this.state.dataToGraph.map((entry, index) => <Cell fill={randomColor()}/>)
+                 }
                 </Pie>
                 <Tooltip formatter={this.moneyFormatter}/>
                 <Legend />
@@ -75,7 +82,7 @@ class AgencyBreakdownView extends Component {
         this.serverRequest  = APIRequester.getAgencyBudgets(ele.tierCode)
         .then(function(result) { 
           console.log(result);
-          const formatted = result[0].subFunding.map(ele => {return {name : ele.year, amount : ele.amount}});
+          const formatted = result[0].subFunding.map(ele => {return {name : ele.name, amount : ele.amount}});
           console.log(formatted);
           _this.setState({
             dataToGraph: formatted

@@ -20,11 +20,11 @@ function App() {
       </Jumbotron>
       <HashRouter>
         <div class="navbar navbar-expand-md navbar-dark bg-dark">
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav mx-auto">
             <li class="nav-item"><Link class="nav-link" to="/">Home</Link></li>
             <li class="nav-item"><Link class="nav-link" to="/states">State Funding</Link></li>
             <li class="nav-item"><Link class="nav-link" to="/historical">Historical Funding</Link></li>
-            <li class="nav-item"><Link class="nav-link" to="/breakdown">Agency Breakdwon</Link></li>
+            <li class="nav-item"><Link class="nav-link" to="/breakdown">Agency Breakdown</Link></li>
           </ul>
 
         </div>
