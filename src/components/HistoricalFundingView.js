@@ -12,7 +12,8 @@ class HistoricalFundingView extends SearchGraphView {
 
   componentDidMount(){
     APIRequester.getAgencyNamesList().then(newData =>{
-      this.updateSearchOptions(newData);
+      const formatted = newData.map(ele => {return {name: ele.name, label: ele.name, value: ele.name, tierCode : ele.tierCode}})
+      this.updateSearchOptions(formatted);
     });
   }
 
@@ -27,7 +28,8 @@ class HistoricalFundingView extends SearchGraphView {
             </LineChart>
   }
 
-  onSelect(item){
+  onChange(item){
+    console.log('here')
     var _this = this;
     this.updateSearchChoice(item.name)
 

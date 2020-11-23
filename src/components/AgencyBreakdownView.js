@@ -12,7 +12,8 @@ class AgencyBreakdownView extends SearchGraphView {
 
   componentDidMount(){
     APIRequester.getAgencyNamesList().then(newData =>{
-      this.updateSearchOptions(newData);
+      const formatted = newData.map(ele => {return {name: ele.name, label: ele.name, value: ele.name, tierCode : ele.tierCode}})
+      this.updateSearchOptions(formatted);
     });
   }
   // Graphs the data the user searched for
@@ -31,12 +32,12 @@ class AgencyBreakdownView extends SearchGraphView {
   // When the user picks an agency from the list, a
   // query needs to be ran to get the specific agencies
   // funding break down.
-  onSelect(item){
+  onChange(item){
     var _this = this; // Create closure for use in call back
-    this.updateSearchChoice(item.name)
+    this.updateSearchChoice(item.value)
 
     this.state.searchOptions.forEach(ele =>{
-      if(ele.name === item.name){
+      if(ele.name === item.value){
         this.serverRequest  = APIRequester.getAgencyBudgets(ele.tierCode)
         .then(function(result) { 
           // No data forund for this agency.  Consider an error alert in the future
