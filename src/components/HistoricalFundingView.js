@@ -1,5 +1,5 @@
 import AgencyBreakdownView from './AgencyBreakdownView';
-import {LineChart, XAxis, YAxis, Line} from "recharts";
+import {LineChart, XAxis, YAxis, Line, Tooltip, Legend, CartesianGrid} from "recharts";
 import APIRequester from '../apiRequester';
 
 class HistoricalFundingView extends AgencyBreakdownView {
@@ -9,10 +9,13 @@ class HistoricalFundingView extends AgencyBreakdownView {
   }
 
   graph(){
-    return  <LineChart width={500} height={300} data={this.state.dataToGraph}>
+    return <LineChart width={800} height={700} data={this.state.dataToGraph} label="Funding in $100 Millions">
               <XAxis dataKey="year"/>
-              <YAxis/>
+              <YAxis></YAxis>
               <Line dataKey= "amount"/>
+              <Tooltip formatter={this.moneyFormatter}/>
+              <Legend />
+              <CartesianGrid strokeDasharray="3 3" />
             </LineChart>
   }
   handleOnSelect(item){

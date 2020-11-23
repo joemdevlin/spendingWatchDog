@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import {Form, Row, Col} from "react-bootstrap";
-import { PieChart, Pie, Legend, Tooltip } from 'recharts';
+import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from 'recharts';
 import APIRequester from '../apiRequester';
 
 class AgencyBreakdownView extends Component {
@@ -19,19 +19,25 @@ class AgencyBreakdownView extends Component {
     this.onAgencySearch = this.onAgencySearch.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
     this.graph = this.graph.bind(this);
+    this.moneyFormatter = this.moneyFormatter.bind(this);
 
     // Updates the text for H2 tag
     this.name = "Agency Budgets"
+  
+  }
+
+  moneyFormatter(num){
+    return '$' + num.toLocaleString('us-EN', {maximumFractionDigits: 2});
   }
 
   // Graphs the data the user searched for
   graph(){
-    return  <PieChart width={730} height={300}>
-              <Pie data={this.state.dataToGraph} dataKey="amount" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" >
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
+    return  <PieChart>
+                <Pie data={this.state.dataToGraph} dataKey="amount" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" >
+                </Pie>
+                <Tooltip formatter={this.moneyFormatter}/>
+                <Legend />
+              </PieChart>
   }
 
   onAgencySearch(string, cached){
@@ -87,7 +93,9 @@ class AgencyBreakdownView extends Component {
   render() {
     return (
       <div>
-        <h2>{this.name}</h2>
+        <Row className="justify-content-md-center">
+          <h2>{this.name}</h2>
+        </Row>
         <Form>
           <Form.Group as={Row}>
             <Form.Label column sm="4">
@@ -104,7 +112,20 @@ class AgencyBreakdownView extends Component {
             </Col>
           </Form.Group>
         </Form>
-        {this.graph()}
+        {this.state.dataToGraph &&
+          <div>
+            <Row className="justify-content-md-center">
+              <h3>{this.state.agencyName} Funding in Million(s)</h3>
+            </Row>
+            <Row className="justify-content-md-center">
+              <Col sm="8">
+              <ResponsiveContainer width = '95%' height = {500} >
+                {this.graph()}
+              </ResponsiveContainer>
+              </Col>
+            </Row>
+          </div>
+       }
       </div>
     )
   }
