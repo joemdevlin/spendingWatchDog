@@ -40,7 +40,7 @@ class SearchGraphView extends GraphView {
                 <Form.Label column sm="2">
                   {this.searchLabel}
                 </Form.Label>
-                <Col sm="8">
+                <Col sm="6">
                   <Select options={this.state.searchOptions} onChange={this.onChange.bind(this)}/>
                 </Col>
               </Form.Group>

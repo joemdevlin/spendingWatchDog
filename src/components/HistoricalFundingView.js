@@ -29,7 +29,6 @@ class HistoricalFundingView extends SearchGraphView {
   }
 
   onChange(item){
-    console.log('here')
     var _this = this;
     this.updateSearchChoice(item.name)
 
