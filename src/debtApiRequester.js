@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const proxyURL = 'https://cors-anywhere.herokuapp.com/';
 const baseURL = 'https://transparency.treasury.gov/services/api/fiscal_service/';
 const debtToPenny = baseURL + 'v2/accounting/od/debt_to_penny';
 
@@ -17,18 +18,17 @@ async function fetchPage(url, options={}){
 // Returns a list of date, intragovernmental holdings, public debt outstanding,
 // and outstanding public debt. 
 class Debt {
-    constructor(date, govHolds, public, outstanding) {
-      this.date = date;
+    constructor(govHolds, publicAmt, outstanding) {
       this.govHolds = govHolds;
-      this.public = public;
+      this.publicAmt = publicAmt;
       this.outstanding = outstanding;
     }
 }
 
-async function getDebt(){
-    const response = await fetchPage(debtToPenny);
-    const result = response.results.map(ele => {
-        return new Debt(ele["record_date"], ele["intragov_hold_amt"], ele["debt_held_public_amt"], 
+async function getDebt(date){
+    const response = await fetchPage(proxyURL + debtToPenny + '?filter=record_date:eq:' + date);
+    const result = response.data.map(ele => {
+        return new Debt(ele["intragov_hold_amt"], ele["debt_held_public_amt"], 
         ele["tot_pub_debt_out_amt"])
     });
     return result;
