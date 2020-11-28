@@ -1,7 +1,7 @@
 import GraphView from './GraphView';
 import {Row, Col, Form} from "react-bootstrap";
 import {ResponsiveContainer } from 'recharts';
-import { ReactSearchAutocomplete } from 'react-search-autocomplete';
+import Select from 'react-select';
 
 class SearchGraphView extends GraphView {
   constructor(props){
@@ -14,14 +14,13 @@ class SearchGraphView extends GraphView {
     };
 
     this.searchLabel = "Agency name"
-    this.onSelect = this.onSelect.bind(this);
     this.graphTitle = "Placeholder"
   }
 
   graphWrapper(){
     return <div>
             <Row className="justify-content-md-center">
-              <Col sm="12">
+              <Col sm="8">
                   {this.graphTitle}
               </Col>
             </Row>
@@ -42,27 +41,15 @@ class SearchGraphView extends GraphView {
                   {this.searchLabel}
                 </Form.Label>
                 <Col sm="6">
-                  <ReactSearchAutocomplete
-                    items={this.state.searchOptions}
-                    onSearch={this.onSearch}
-                    onSelect={this.onSelect}
-                    onFocus={this.onFocus}
-                    autoFocus 
-                  />
+                  <Select options={this.state.searchOptions} onChange={this.onChange.bind(this)}/>
                 </Col>
               </Form.Group>
             </Form>
   }
 
   // Placeholder functions for the user interacting with the form.
-  onSearch(string, cached){
-    console.log(string, cached);
-  }
-  onFocus(){
-    console.log("Focused");
-  }
-  onSelect(item){
-    console.log(item);
+  onChange(string){
+    console.log(string);
   }
 
   // Populates the search options

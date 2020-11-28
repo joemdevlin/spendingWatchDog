@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import APIRequester from '../debtApiRequester';
+import {getDebt} from '../debtApiRequester';
 import {Row, Col} from "react-bootstrap";
 import { BarChart, Bar, Tooltip, Legend, CartesianGrid, XAxis, YAxis } from 'recharts';
 
@@ -44,7 +44,7 @@ class DebtView extends Component {
     }
 
     /*componentDidMount(date){
-        APIRequester.getDebt(date).then(newData =>{
+        getDebt(date).then(newData =>{
           this.updateData(newData);
         });
     }*/
@@ -74,7 +74,7 @@ class DebtView extends Component {
     } 
 
     onSelect(data) {
-        APIRequester.getDebt(data).then((res) => {
+        getDebt(data).then((res) => {
                 alert(res);
                 /*this.setState({
                     dataToGraph: [
@@ -88,7 +88,7 @@ class DebtView extends Component {
         var _this = this; // Create closure for use in call back
     
         if(this.state.startDate === date){
-            this.serverRequest  = APIRequester.getDebt(date)
+            this.serverRequest  = getDebt(date)
             .then(function(result) { 
             // No data found for this date.  Consider an error alert in the future
             if(result == null){

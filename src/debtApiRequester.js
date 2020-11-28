@@ -4,7 +4,7 @@ const debtToPenny = baseURL + 'v2/accounting/od/debt_to_penny';
 
 // Helper function to run a get http request with
 // no explicit parameters.
-async function fetchPage(url){
+export async function fetchPage(url){
     if(url  === null){
         return null;
     }
@@ -31,7 +31,7 @@ async function fetchPage(url){
 
 // Returns a list of date, intragovernmental holdings, public debt outstanding,
 // and outstanding public debt. 
-class Debt {
+export class Debt {
     constructor(govHolds, publicAmt, outstanding) {
       this.govHolds = govHolds;
       this.publicAmt = publicAmt;
@@ -40,7 +40,7 @@ class Debt {
 }
 
 // Return an array of data from API based on date argument
-async function getDebt(date){
+export const getDebt = async function(date){
 
     const response = await fetchPage(debtToPenny + '?filter=record_date:eq:' + date);
 
@@ -52,4 +52,4 @@ async function getDebt(date){
     return result;
 }
 
-module.exports = {getDebt, Debt};
+//module.exports = {getDebt, Debt};

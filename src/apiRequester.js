@@ -1,12 +1,13 @@
 const fetch = require('node-fetch');
+
 const baseURL = 'https://api.usaspending.gov';
 const agenciesURL = baseURL + '/api/v2/references/toptier_agencies';
 const historicalFunding = baseURL + '/api/v2/search/spending_over_time';
 const stateFunding = baseURL + '/api/v2/search/spending_by_category';
 
 
-// Holds Top Levle Agency info
-class Agency {
+// Holds Top Level Agency info
+export class Agency {
     constructor(name, id, tierCode) {
       this.name = name;
       this.id = id;
@@ -16,7 +17,7 @@ class Agency {
 
 // Holds funding breakdown for a specific Agency
 // Note: subfinding is a list of Funding.
-class Funding {
+export class Funding {
     constructor(name, amount, subFunding) {
       this.name = name;
       this.amount = amount;
@@ -26,7 +27,7 @@ class Funding {
 
 // Helper function to run a get http request with
 // no explicit parameters.
-async function fetchPage(url, options={}){
+export const fetchPage = async function(url, options={}){
     if(url  === null){
         return null;
     }
@@ -38,7 +39,7 @@ async function fetchPage(url, options={}){
 
 // Returns a list of Agency.  Preforms API request
 // to get a list of all possible agencies to pick from.
-async function getAgencyNames(){
+export const getAgencyNames = async function(){
     const response = await fetchPage(agenciesURL);
     const result = response.results.map(ele => {
         return new Agency(ele["agency_name"], ele["agency_id"], ele["toptier_code"])
@@ -46,7 +47,7 @@ async function getAgencyNames(){
     return result;
 }
 
-async function getAgencyNamesList(){
+export const getAgencyNamesList = async function(){
     const response = await getAgencyNames();
     const result = response.map((agency, index) => {
         return {id: index, name: agency.name, tierCode : agency.tierCode}
@@ -55,7 +56,7 @@ async function getAgencyNamesList(){
 }
 
 // Returns a list of Funding.  Used to encapsualte each agencies spending breakdown.
-async function getAgencyBudgets(toptierCode){
+export const foo = async function(toptierCode){
     const response = await fetchPage(`${baseURL}/api/v2/agency/${toptierCode}/budget_function`);
     const result = response.results.map(ele => {
         return new Funding(ele["name"], ele["obligated_amount"], ele.children.map(child =>{
@@ -66,7 +67,7 @@ async function getAgencyBudgets(toptierCode){
 }
 
 // Returns a list of amount and year pairs
-async function getAgencyHistorical(name){
+export const getAgencyHistorical = async function(name){
     const apiOptions = {
   	    group : "fiscal_year",
   	     filters : {
@@ -97,7 +98,7 @@ async function getAgencyHistorical(name){
 }
 
 // Returns a list of states and funding pairs
-async function getStateFunding(){
+export const  getStateFunding = async function(){
     const apiOptions = {
         category : "state_territory",
         limit: "50"
@@ -119,4 +120,4 @@ async function getStateFunding(){
     return result;
 }
 
-module.exports = {getAgencyNames, getPage: fetchPage, Agency, Funding, getAgencyBudgets, getAgencyHistorical, getStateFunding, getAgencyNamesList};
+//module.exports = {foo, getAgencyNames, Agency, Funding, getAgencyHistorical, getStateFunding, getAgencyNamesList};
