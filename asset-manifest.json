@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/spendingWatchDog/static/css/main.d4d59b14.chunk.css",
-    "main.js": "/spendingWatchDog/static/js/main.aafc02c2.chunk.js",
-    "main.js.map": "/spendingWatchDog/static/js/main.aafc02c2.chunk.js.map",
+    "main.js": "/spendingWatchDog/static/js/main.6d94c814.chunk.js",
+    "main.js.map": "/spendingWatchDog/static/js/main.6d94c814.chunk.js.map",
     "runtime-main.js": "/spendingWatchDog/static/js/runtime-main.3114b8e9.js",
     "runtime-main.js.map": "/spendingWatchDog/static/js/runtime-main.3114b8e9.js.map",
     "static/css/2.5ea8d6f0.chunk.css": "/spendingWatchDog/static/css/2.5ea8d6f0.chunk.css",
@@ -18,6 +18,6 @@
     "static/css/2.5ea8d6f0.chunk.css",
     "static/js/2.301315aa.chunk.js",
     "static/css/main.d4d59b14.chunk.css",
-    "static/js/main.aafc02c2.chunk.js"
+    "static/js/main.6d94c814.chunk.js"
   ]
 }
