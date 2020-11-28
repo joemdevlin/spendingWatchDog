@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/spendingWatchDog/static/css/main.d4d59b14.chunk.css",
+    "main.js": "/spendingWatchDog/static/js/main.aafc02c2.chunk.js",
+    "main.js.map": "/spendingWatchDog/static/js/main.aafc02c2.chunk.js.map",
+    "runtime-main.js": "/spendingWatchDog/static/js/runtime-main.3114b8e9.js",
+    "runtime-main.js.map": "/spendingWatchDog/static/js/runtime-main.3114b8e9.js.map",
+    "static/css/2.5ea8d6f0.chunk.css": "/spendingWatchDog/static/css/2.5ea8d6f0.chunk.css",
+    "static/js/2.301315aa.chunk.js": "/spendingWatchDog/static/js/2.301315aa.chunk.js",
+    "static/js/2.301315aa.chunk.js.map": "/spendingWatchDog/static/js/2.301315aa.chunk.js.map",
+    "index.html": "/spendingWatchDog/index.html",
+    "static/css/2.5ea8d6f0.chunk.css.map": "/spendingWatchDog/static/css/2.5ea8d6f0.chunk.css.map",
+    "static/css/main.d4d59b14.chunk.css.map": "/spendingWatchDog/static/css/main.d4d59b14.chunk.css.map",
+    "static/js/2.301315aa.chunk.js.LICENSE.txt": "/spendingWatchDog/static/js/2.301315aa.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3114b8e9.js",
+    "static/css/2.5ea8d6f0.chunk.css",
+    "static/js/2.301315aa.chunk.js",
+    "static/css/main.d4d59b14.chunk.css",
+    "static/js/main.aafc02c2.chunk.js"
+  ]
+}
