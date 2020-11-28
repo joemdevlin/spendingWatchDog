@@ -56,7 +56,7 @@ export const getAgencyNamesList = async function(){
 }
 
 // Returns a list of Funding.  Used to encapsualte each agencies spending breakdown.
-export const foo = async function(toptierCode){
+export const getAgencyBudgets = async function(toptierCode){
     const response = await fetchPage(`${baseURL}/api/v2/agency/${toptierCode}/budget_function`);
     const result = response.results.map(ele => {
         return new Funding(ele["name"], ele["obligated_amount"], ele.children.map(child =>{
@@ -120,4 +120,4 @@ export const  getStateFunding = async function(){
     return result;
 }
 
-//module.exports = {foo, getAgencyNames, Agency, Funding, getAgencyHistorical, getStateFunding, getAgencyNamesList};
+//module.exports = {getAgencyBudgets, getAgencyNames, Agency, Funding, getAgencyHistorical, getStateFunding, getAgencyNamesList};

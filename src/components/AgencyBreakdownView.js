@@ -1,7 +1,7 @@
 import SearchGraphView from './SearchGraphView';
 import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
 import {randomColor, moneyFormatter} from '../utils';
-import {foo, getAgencyNamesList} from '../apiRequester';
+import {getAgencyBudgets, getAgencyNamesList} from '../apiRequester';
 
 /*
   This view is used to show how the funding for each agency is broken down internally.
@@ -42,7 +42,7 @@ class AgencyBreakdownView extends SearchGraphView {
 
     this.state.searchOptions.forEach(ele =>{
       if(ele.name === item.value){
-        this.serverRequest  = foo(ele.tierCode)
+        this.serverRequest  = getAgencyBudgets(ele.tierCode)
         .then(function(result) { 
           // No data forund for this agency.  Consider an error alert in the future
           if(result.length < 1){
