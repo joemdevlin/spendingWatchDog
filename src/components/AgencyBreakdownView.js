@@ -1,8 +1,11 @@
 import SearchGraphView from './SearchGraphView';
 import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
-import APIRequester from '../apiRequester';
 import {randomColor, moneyFormatter} from '../utils';
+import {foo, getAgencyNamesList} from '../apiRequester';
 
+/*
+  This view is used to show how the funding for each agency is broken down internally.
+*/
 class AgencyBreakdownView extends SearchGraphView {
   constructor(props){
     super(props);
@@ -11,12 +14,13 @@ class AgencyBreakdownView extends SearchGraphView {
   }
 
   componentDidMount(){
-    APIRequester.getAgencyNamesList().then(newData =>{
+    getAgencyNamesList().then(newData =>{
       const formatted = newData.map(ele => {return {name: ele.name, label: ele.name, value: ele.name, tierCode : ele.tierCode}})
       this.updateSearchOptions(formatted);
     });
   }
-  // Graphs the data the user searched for
+
+  // Graphs the data for the agency the user picked
   graph(){
     return  <PieChart>
                 <Pie data={this.state.dataToGraph} dataKey="amount" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" >
@@ -38,7 +42,7 @@ class AgencyBreakdownView extends SearchGraphView {
 
     this.state.searchOptions.forEach(ele =>{
       if(ele.name === item.value){
-        this.serverRequest  = APIRequester.getAgencyBudgets(ele.tierCode)
+        this.serverRequest  = foo(ele.tierCode)
         .then(function(result) { 
           // No data forund for this agency.  Consider an error alert in the future
           if(result.length < 1){

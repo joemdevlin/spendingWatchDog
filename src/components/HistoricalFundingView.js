@@ -1,8 +1,11 @@
 import SearchGraphView from './SearchGraphView';
 import {LineChart, XAxis, YAxis, Line, Tooltip, Legend, CartesianGrid} from "recharts";
-import APIRequester from '../apiRequester';
+import {getAgencyNamesList, getAgencyHistorical} from '../apiRequester';
 import {moneyFormatter} from '../utils';
 
+/*
+  Shows how an agency has been funded over the years.  The API supports back to 2008.
+*/
 class HistoricalFundingView extends SearchGraphView {
   constructor(props){
     super(props);
@@ -11,7 +14,7 @@ class HistoricalFundingView extends SearchGraphView {
   }
 
   componentDidMount(){
-    APIRequester.getAgencyNamesList().then(newData =>{
+    getAgencyNamesList().then(newData =>{
       const formatted = newData.map(ele => {return {name: ele.name, label: ele.name, value: ele.name, tierCode : ele.tierCode}})
       this.updateSearchOptions(formatted);
     });
@@ -32,7 +35,7 @@ class HistoricalFundingView extends SearchGraphView {
     var _this = this;
     this.updateSearchChoice(item.name)
 
-    APIRequester.getAgencyHistorical(item.name)
+    getAgencyHistorical(item.name)
       .then(function(result) { 
         _this.updateData(result)
       })

@@ -1,7 +1,7 @@
 import GraphView from './GraphView';
 import {moneyFormatter} from '../utils';
 import {RadarChart, PolarAngleAxis, PolarRadiusAxis, PolarGrid, Tooltip, Legend, Radar} from "recharts";
-import APIRequester from '../apiRequester';
+import {getStateFunding} from '../apiRequester';
 class StateView extends GraphView {
   constructor(props){
     super(props);
@@ -21,7 +21,7 @@ class StateView extends GraphView {
   }
 
   componentDidMount(){
-    APIRequester.getStateFunding().then(newData =>{
+    getStateFunding().then(newData =>{
       this.updateData(newData);
     });
   }
