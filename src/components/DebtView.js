@@ -5,7 +5,8 @@ import {getDebt} from '../debtApiRequester';
 import {Row, Col} from "react-bootstrap";
 import { ResponsiveContainer, BarChart, Bar, Tooltip, Legend, CartesianGrid, XAxis, YAxis } from 'recharts'; 
 
-var selectedDate;
+// Temporary data array used for class demo
+const demoData = [{outstanding: 27.26, publicAmt: 21.21, govHolds: 6.05}];
 
 class DebtView extends Component {
 
@@ -18,7 +19,7 @@ class DebtView extends Component {
 
         };
 
-        this.graphTitle = "Debt to the Penny"
+        this.graphTitle = "Debt represented in trillions"
     }
 
     // Wrapper for calling Recharts bar graph
@@ -42,18 +43,19 @@ class DebtView extends Component {
         })
     }
 
-    // Graphs the data the user searched for
+    // Graphs the data the user inputed
+    // *NOTE: only temp data is being used since API data couldn't be fetched. Otherwise, dataToGraph will be used
     barGraph(){
         return <ResponsiveContainer aspect={6.0/3.0} width='90%'>
-                 <BarChart data={this.state.dataToGraph}>
+                 <BarChart data={demoData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="" />
+                    <XAxis dataKey='Government' />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar name="Total Outstanding Debt Amount" dataKey="tot_pub_debt_out_amt" fill="#8884d8" />
-                    <Bar name="Intragovernmental Holdings" dataKey="intragov_hold_amt" fill="#82ca9d" />
-                    <Bar name="Total Public Debt Outstanding" dataKey="debt_held_public_amt" fill="#ffc658" />
+                    <Bar name="Total Outstanding Debt Amount" dataKey="outstanding" fill="#8884d8" />
+                    <Bar name="Intragovernmental Holdings" dataKey="govHolds" fill="#82ca9d" />
+                    <Bar name="Total Public Debt Outstanding" dataKey="publicAmt" fill="#ffc658" />
                 </BarChart> 
         </ResponsiveContainer> 
     }
@@ -79,8 +81,8 @@ class DebtView extends Component {
                 return
             }
             // Update 
-            const formatted = result.data.map(ele => {
-                return {name : ele.name, amount : ele.amount}
+            const formatted = result.map(ele => {
+                return {govHolds : ele.govHolds, publicAmt: ele.publicAmt, outstanding: ele.outstanding, }
             });
             _this.updateData(formatted)
         })

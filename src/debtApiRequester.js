@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const baseURL = 'http://transparency.treasury.gov/services/api/fiscal_service/';
+const baseURL = 'https://transparency.treasury.gov/services/api/fiscal_service/';
 const debtToPenny = baseURL + 'v2/accounting/od/debt_to_penny';
 
 // Helper function to run a get http request with
@@ -41,11 +41,8 @@ export class Debt {
 
 // Return an array of data from API based on date argument
 export const getDebt = async function(date){
-
     const response = await fetchPage(debtToPenny + '?filter=record_date:eq:' + date);
-
     const result = response.data.map(ele => { 
-        alert(ele); // alert to check whether there are any data, but comes out as "undefined"
         return new Debt(ele["intragov_hold_amt"], ele["debt_held_public_amt"], 
         ele["tot_pub_debt_out_amt"])
     });
