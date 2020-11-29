@@ -84,9 +84,28 @@ button {
   height: 120%;
 }
 
-img {
-  width: 10px;
-  height: 10px;
+.historicalImg {
+  width: 90%;
+  height: 50%;
+}
+
+.agencyImg {
+  width: 80%;
+  height: 80%;
+}
+
+.debtImg {
+  width: 90%;
+  height: 50%;
+}
+
+.stateImg {
+  width: 80%;
+  height: 80%;
+}
+
+.row {
+  padding-bottom: 10%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -98,5 +117,8 @@ img {
 @media screen and (max-width: 992px) {
   button {  
     height: auto;
+  }
+  .stateWrap, .agencyWrap, .historicalWrap, .debtWrap {
+    padding-bottom: 5%;
   }
 }
