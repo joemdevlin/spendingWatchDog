@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {getDebt} from '../debtApiRequester';
 import {Row, Col} from "react-bootstrap";
-import { BarChart, Bar, Tooltip, Legend, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, Tooltip, Legend, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 let date = null; 
 
@@ -21,14 +21,11 @@ class DebtView extends Component {
     }
 
     graphWrapper(){
-        return <div>
+        return <div className="debtGraph col-lg-8">
                 <Row className="justify-content-md-center">
                   <Col sm="12">
+                      <h3 className="pageHeader">U.S. Public Debt</h3>
                       {this.graphTitle}
-                  </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                  <Col sm="12">
                       {this.barGraph()}
                   </Col>
                 </Row>
@@ -51,10 +48,8 @@ class DebtView extends Component {
 
     // Graphs the data the user searched for
     barGraph(){
-        return <BarChart width={1000}
-                        height={300}
-                        data={this.state.dataToGraph}
-                        >
+        return <ResponsiveContainer aspect={6.0/3.0} width='90%'>
+                 <BarChart width="100%" height="100%" data={this.state.dataToGraph}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="" />
                     <YAxis />
@@ -64,13 +59,15 @@ class DebtView extends Component {
                     <Bar name="Intragovernmental Holdings" dataKey="intragov_hold_amt" fill="#82ca9d" />
                     <Bar name="Total Public Debt Outstanding" dataKey="debt_held_public_amt" fill="#ffc658" />
                 </BarChart> 
+        </ResponsiveContainer> 
     }
 
     // Add React date picker functionality that updates onChange
     searchFromDate() {
-        return (
-        <DatePicker selected={this.state.startDate} onChange={date => this.setState({startDate: date})} />
-        );
+        return <div  className="datePicker col-lg-4">
+            <h4 id={date} className="pageHeader">Select a date:</h4>
+            <DatePicker selected={this.state.startDate} onChange={date => this.setState({startDate: date})} />
+        </div>
     } 
 
     onSelect(data) {
@@ -115,11 +112,9 @@ class DebtView extends Component {
         //const data = [{yaxis: 'Amount in Dollars', xaxis: 'Record date: ' + displayDate, totalAmt: 2400, govAmt: 623, publicAmt: 2132}];
 
         return (
-        <div className="debtGraph">
-            <h4 id={date} class="datePicker">Select a date:</h4>
+        <div className="debtPage row">
             {this.searchFromDate()}
             {this.onSelect(date)}
-            <h3>U.S. Public Debt</h3>
             {this.graphWrapper()}
         </div>
         

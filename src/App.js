@@ -16,11 +16,11 @@ import {Jumbotron} from "react-bootstrap";
 function App() {
   return (
     <div className="App">
-      <Jumbotron className="mb-0">
+      <Jumbotron className="mb-0 title-custom">
           <h1>Spending Watch Dog</h1>
       </Jumbotron>
       <HashRouter>
-        <div class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="navbar navbar-expand-md navbar-dark navbar-custom">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item"><Link class="nav-link" to="/">Home</Link></li>
             <li class="nav-item"><Link class="nav-link" to="/states">State Funding</Link></li>

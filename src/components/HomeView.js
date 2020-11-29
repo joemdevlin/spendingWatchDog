@@ -36,7 +36,7 @@ class HomeView extends Component {
           <div className="homeText">
             <p>This page will display total funding by state. All fifty states are listed onto one single circle
             chart so that funding be easily compared to other states.</p>
-            <a className="homeTitleText" href="#/states">CLICK TO VIEW GRAPH</a>
+            <a className="homeClickText" href="#/states">CLICK TO VIEW GRAPH</a>
           </div>
         </div>
       </button>
@@ -61,7 +61,7 @@ class HomeView extends Component {
             <p>An agency name could be searched to display the historical funding onto a line graph. 
               Each dollar is represented as millions and displays data within the past 12 years.
             </p>
-            <a className="homeTitleText" href="#/historical">CLICK TO VIEW GRAPH</a>
+            <a className="homeClickText" href="#/historical">CLICK TO VIEW GRAPH</a>
           </div>
         </div>
       </button>
@@ -86,7 +86,7 @@ class HomeView extends Component {
             <p>This page displays the current agency funding based on the searched agency.
               Data is presented in a circle graph and each dollar is represented as millions.
             </p>
-            <a className="homeTitleText" href="#/breakdown">CLICK TO VIEW GRAPH</a>
+            <a className="homeClickText" href="#/breakdown">CLICK TO VIEW GRAPH</a>
           </div>
         </div>
       </button>
@@ -112,7 +112,7 @@ class HomeView extends Component {
               A date can be selected and the overall debt, intragovernmental holdings, and public holdings
               amount will be displayed.
             </p>
-            <a className="homeTitleText" href="#/debt">CLICK TO VIEW GRAPH</a>
+            <a className="homeClickText" href="#/debt">CLICK TO VIEW GRAPH</a>
           </div>
         </div>
       </button>

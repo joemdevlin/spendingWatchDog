@@ -36,7 +36,7 @@ class GraphView extends Component {
   headerWrapper(){
     return  <Row className="justify-content-md-center">
               <Col sm='12'>
-                <h1>{this.header}</h1>
+                <h1 className="pageHeader">{this.header}</h1>
               </Col>
             </Row>
   }
