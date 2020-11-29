@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <Jumbotron className="mb-0 title-custom">
-          <h1>Spending Watch Dog</h1>
+          <h1 class="title-text"><a href="#/">Spending Watch Dog</a></h1>
       </Jumbotron>
       <HashRouter>
         <div class="navbar navbar-expand-md navbar-dark navbar-custom">

@@ -3,9 +3,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {getDebt} from '../debtApiRequester';
 import {Row, Col} from "react-bootstrap";
-import { ResponsiveContainer, BarChart, Bar, Tooltip, Legend, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, Tooltip, Legend, CartesianGrid, XAxis, YAxis } from 'recharts'; 
 
-let date = null; 
+var selectedDate;
 
 class DebtView extends Component {
 
@@ -15,13 +15,15 @@ class DebtView extends Component {
         this.state = {
             startDate: new Date(),
             dataToGraph: []
+
         };
 
         this.graphTitle = "Debt to the Penny"
     }
 
+    // Wrapper for calling Recharts bar graph
     graphWrapper(){
-        return <div className="debtGraph col-lg-8">
+        return <div className="debtGraph">
                 <Row className="justify-content-md-center">
                   <Col sm="12">
                       <h3 className="pageHeader">U.S. Public Debt</h3>
@@ -40,16 +42,10 @@ class DebtView extends Component {
         })
     }
 
-    /*componentDidMount(date){
-        getDebt(date).then(newData =>{
-          this.updateData(newData);
-        });
-    }*/
-
     // Graphs the data the user searched for
     barGraph(){
         return <ResponsiveContainer aspect={6.0/3.0} width='90%'>
-                 <BarChart width="100%" height="100%" data={this.state.dataToGraph}>
+                 <BarChart data={this.state.dataToGraph}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="" />
                     <YAxis />
@@ -64,60 +60,41 @@ class DebtView extends Component {
 
     // Add React date picker functionality that updates onChange
     searchFromDate() {
-        return <div  className="datePicker col-lg-4">
-            <h4 id={date} className="pageHeader">Select a date:</h4>
+        return <div  className="datePicker">
+            <h4 className="pageHeader">Select a date:</h4>
             <DatePicker selected={this.state.startDate} onChange={date => this.setState({startDate: date})} />
         </div>
     } 
 
-    onSelect(data) {
-        getDebt(data).then((res) => {
-                alert(res);
-                /*this.setState({
-                    dataToGraph: [
-                        publicAmt: res
-                    ]
-                })*/
-        });
-    }
-    // When the user picks a date, a query needs to be ran to get the specific data
-    /*onSelect(date){
+    // When the user picks a date, the date value will be added to get the correct API data
+    onSelect(date){
         var _this = this; // Create closure for use in call back
     
-        if(this.state.startDate === date){
-            this.serverRequest  = getDebt(date)
-            .then(function(result) { 
+        this.serverRequest = getDebt(date)
+        .then(function(result) { 
             // No data found for this date.  Consider an error alert in the future
             if(result == null){
                 _this.updateData(null);
                 console.log(`No data found on this date.`);
                 return
             }
-
-            // Data is returned at a top agency level, so for now just show the user
-            // the agency they requested.
-            const formatted = result[0].subFunding.map(ele => {
+            // Update 
+            const formatted = result.data.map(ele => {
                 return {name : ele.name, amount : ele.amount}
             });
             _this.updateData(formatted)
-            })
+        })
         ;
-        }
-    }*/
+    }
 
     render() {
-        date = this.state.startDate.getFullYear() + "-" + parseInt(this.state.startDate.getMonth()+1) + "-" + this.state.startDate.getDate();
-        
-        let displayDate = parseInt( this.state.startDate.getMonth()+1) + "/" + this.state.startDate.getDate() + "/" + this.state.startDate.getFullYear();
-        //const data = [{yaxis: 'Amount in Dollars', xaxis: 'Record date: ' + displayDate, totalAmt: 2400, govAmt: 623, publicAmt: 2132}];
-
         return (
-        <div className="debtPage row">
-            {this.searchFromDate()}
-            {this.onSelect(date)}
-            {this.graphWrapper()}
-        </div>
-        
+            <div className="debtPage">
+                {this.searchFromDate()}
+                {this.onSelect(this.state.startDate.getFullYear() + "-" + parseInt(this.state.startDate.getMonth()+1) 
+                    + "-" + this.state.startDate.getDate())}
+                {this.graphWrapper()}
+            </div>
         )
     }
 }

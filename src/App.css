@@ -39,6 +39,15 @@
   color:#001f4c;
 }
 
+.title-text a {
+  color: inherit !important;
+}
+
+.title-text a:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
 .graph{
   height: 100%;
   width: 100%;
@@ -124,9 +133,7 @@ button {
 }
 
 .debtGraph {
-}
-
-.datePicker {
+  padding-top: 10%;
 }
 
 .debtPage {
@@ -149,5 +156,11 @@ button {
   .stateWrap, .agencyWrap, .historicalWrap, .debtWrap {
     padding-bottom: 5%;
   }
-
+  .debtPage.row {
+    padding: 0%;
+    padding-top: 5%;
+  }
+  .debtGraph {
+    padding-top: 10%;
+  }
 }
