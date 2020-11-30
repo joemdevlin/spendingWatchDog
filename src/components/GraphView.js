@@ -20,6 +20,11 @@ class GraphView extends Component {
   graph(){
     return  null
   }
+
+  // Helper function to figure out how "wide a number is"
+  graphPadding(data){
+    return 5 * Math.max(...data.map(ele => ele.amount)).toString().length;
+  }
   
   // Bootstrap-ifies the graph
   graphWrapper(){

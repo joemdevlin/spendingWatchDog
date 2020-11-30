@@ -10,7 +10,7 @@ class HistoricalFundingView extends SearchGraphView {
   constructor(props){
     super(props);
     this.header = "Historical Agency Funding"
-    this.graphTitle = "Funding in Millions of dollars"
+    this.graphTitle = "Total Fenderal funding in US Dollars"
   }
 
   componentDidMount(){
@@ -21,9 +21,10 @@ class HistoricalFundingView extends SearchGraphView {
   }
 
   graph(){
-    return <LineChart data={this.state.dataToGraph} label="Funding in $100 Millions">
+    const paddingSize = this.graphPadding(this.state.dataToGraph);
+    return <LineChart data={this.state.dataToGraph} label="US Federal Funding" margin={{left:paddingSize, top: 10, right: paddingSize, bottom: 10}}>
               <XAxis dataKey="year"/>
-              <YAxis></YAxis>
+              <YAxis formatter={moneyFormatter}></YAxis>
               <Line dataKey= "amount"/>
               <Tooltip formatter={moneyFormatter}/>
               <Legend />

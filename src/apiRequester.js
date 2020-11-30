@@ -60,7 +60,7 @@ export const getAgencyBudgets = async function(toptierCode){
     const response = await fetchPage(`${baseURL}/api/v2/agency/${toptierCode}/budget_function`);
     const result = response.results.map(ele => {
         return new Funding(ele["name"], ele["obligated_amount"], ele.children.map(child =>{
-            return new Funding(child["name"], child["obligated_amount"] / 1000000, []);
+            return new Funding(child["name"], child["obligated_amount"], []);
         }));
     });
     return result;
@@ -91,7 +91,7 @@ export const getAgencyHistorical = async function(name){
 
     const response = await fetchPage(historicalFunding, httpOptions);
     const result = response.results.map(year =>
-        ({amount : Number(year.aggregated_amount) / 1000000, year : Number(year.time_period.fiscal_year)})
+        ({amount : Number(year.aggregated_amount), year : Number(year.time_period.fiscal_year)})
     );
 
     return result;
@@ -114,7 +114,7 @@ export const  getStateFunding = async function(){
 
     const response = await fetchPage(stateFunding, httpOptions);
     const result = response.results.map(state =>
-        ({name : state.name, amount : Number(state.amount)/ 1000000})
+        ({name : state.name, amount : Number(state.amount)})
     );
 
     return result;

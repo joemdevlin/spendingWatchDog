@@ -5,7 +5,7 @@ import {getStateFunding} from '../apiRequester';
 class StateView extends GraphView {
   constructor(props){
     super(props);
-    this.header = "State Funding in Millions"
+    this.header = "Total Fenderal funding in US Dollars"
     this.height = 1000;
   }
   

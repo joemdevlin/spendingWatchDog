@@ -10,12 +10,14 @@ class AgencyBreakdownView extends SearchGraphView {
   constructor(props){
     super(props);
     this.header ="Agency Funding"
-    this.graphTitle = "Funding in Millions of dollars"
+    this.graphTitle = "Total Fenderal funding in US Dollars"
   }
 
   componentDidMount(){
     getAgencyNamesList().then(newData =>{
-      const formatted = newData.map(ele => {return {name: ele.name, label: ele.name, value: ele.name, tierCode : ele.tierCode}})
+      const formatted = newData.map(ele => {
+        return {name: ele.name, label: ele.name, value: ele.name, tierCode : ele.tierCode}
+      })
       this.updateSearchOptions(formatted);
     });
   }
